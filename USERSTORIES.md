@@ -1,7 +1,7 @@
-# Flash Cards User Stories
+# Flashcards User Stories
 
 AS a USER
-I WANT to be able to CREATE Flash Cards
+I WANT to be able to CREATE Flashcards
 
 AS a User
 I WANT to be able to view all of their created flash cards
