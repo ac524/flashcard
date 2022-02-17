@@ -8,6 +8,8 @@ class Flashcard extends Model {
 Flashcard.init(
   {
     /** columns here */
+    questions: DataTypes.STRING(500),
+    answer: DataTypes.STRING(500)
   },
   {
     sequelize,
