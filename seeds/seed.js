@@ -1,12 +1,12 @@
 const sequelize = require('../config/connection');
-const { User } = require('../models');
+const { User, Flashcard } = require('../models');
 
 const userData = require('./userData.json');
+const flashcardData = require('./flashcardData.json');
 
 /**
  * Leaving for future reference
  */
- 
 // const projectData = require('./projectData.json');
 
 const seedDatabase = async () => {
@@ -21,12 +21,14 @@ const seedDatabase = async () => {
    * Leaving for future reference
    */
 
-  // for (const project of projectData) {
-  //   await Project.create({
-  //     ...project,
-  //     user_id: users[Math.floor(Math.random() * users.length)].id,
-  //   });
-  // }
+  for (const flashcard of flashcardData) {
+    const flashcardData = {
+      ...flashcard,
+      user_id: users[Math.floor(Math.random() * users.length)].id,
+    };
+    console.log(flashcardData);
+    await Flashcard.create( flashcardData );
+  }
 
   process.exit(0);
 };
