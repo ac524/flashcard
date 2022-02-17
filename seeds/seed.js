@@ -1,8 +1,8 @@
-const sequelize = require('../config/connection');
-const { User, Flashcard } = require('../models');
+const sequelize = require("../config/connection");
+const { User, Flashcard } = require("../models");
 
-const userData = require('./userData.json');
-const flashcardData = require('./flashcardData.json');
+const userData = require("./userData.json");
+const flashcardData = require("./flashcardData.json");
 
 /**
  * Leaving for future reference
@@ -27,7 +27,7 @@ const seedDatabase = async () => {
       user_id: users[Math.floor(Math.random() * users.length)].id,
     };
     console.log(flashcardData);
-    await Flashcard.create( flashcardData );
+    await Flashcard.create(flashcardData);
   }
 
   process.exit(0);
