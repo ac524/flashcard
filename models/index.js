@@ -1,12 +1,13 @@
 const User = require('./User');
+const Flashcard = require('./Flashcard');
 
-// User.hasMany(Project, {
-//   foreignKey: 'user_id',
-//   onDelete: 'CASCADE'
-// });
+User.hasMany(Flashcard, {
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE',
+});
 
-// Project.belongsTo(User, {
-//   foreignKey: 'user_id'
-// });
+Flashcard.belongsTo(User, {
+  foreignKey: 'user_id',
+});
 
-module.exports = { User };
+module.exports = { User, Flashcard };

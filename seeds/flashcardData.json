@@ -1,0 +1,38 @@
+[
+  {
+    "question": "What's my favorite color?",
+    "answer": "green"
+  },
+  {
+    "question": "How do you make an array with javascript?",
+    "answer": "With those square brackets!"
+  },
+  {
+    "question": "What did you have for breakfast?",
+    "answer": "Breakfast burrito!"
+  },
+  {
+    "question": "Question A",
+    "answer": "Answer A"
+  },
+  {
+    "question": "Question B",
+    "answer": "Answer B"
+  },
+  {
+    "question": "Question C",
+    "answer": "Answer C"
+  },
+  {
+    "question": "Question D",
+    "answer": "Answer D"
+  },
+  {
+    "question": "Question E",
+    "answer": "Answer E"
+  },
+  {
+    "question": "Question F",
+    "answer": "Answer F"
+  }
+]
