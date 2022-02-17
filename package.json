@@ -8,7 +8,7 @@
     "start": "node server.js",
     "seed": "node seeds/seed.js",
     "watch": "nodemon server.js",
-    "lint": "npx eslint --ext .js config/ controllers/ models/ seeds/ utils/"
+    "lint": "npx eslint --ext .js ./"
   },
   "keywords": [],
   "author": "",
