@@ -1,0 +1,31 @@
+:root {
+    --light: #DFDFDF;
+    --dark-transparent: rgba(0,0,0,0.2);
+}
+
+/** ### Sidenav Styles ### */
+.sidenav .user-view {
+    background: var(--light);
+}
+.user-view .circle {
+    background:var(--dark-transparent);
+    color:#FFF;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.user-view .circle i {
+    font-size: 2.5em;
+}
+
+/** main page content **/
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc( 100vh - 64px );
+}
+
+/** welcome **/
+.welcome h1 {
+    font-size: 2rem;
+}
