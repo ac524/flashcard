@@ -18,7 +18,6 @@ const setViewData = async (req, res, next) => {
       req.viewData.user = userRecord.toJSON();
     }
   }
-  
 
   return next();
 };
