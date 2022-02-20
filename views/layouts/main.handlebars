@@ -35,21 +35,33 @@
     </nav>
     {{#if logged_in}}
     <ul id="sidebar-nav" class="sidenav">
+        {{#if user}}
         <li>
             <div class="user-view" style="background:#ccc">
                 <!-- <div class="background">
                     <img src="images/office.jpg">
                 </div> -->
-                <a href="#user"><span class="circle" style="background:rgba(0,0,0,0.2);color:#FFF;display:flex;align-items:center;justify-content:center;"><i class="material-icons">person</i></span></a>
-                <a href="#name"><span class="white-text name">John Doe</span></a>
-                <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                <span class="circle" style="background:rgba(0,0,0,0.2);color:#FFF;display:flex;align-items:center;justify-content:center;"><i class="material-icons">person</i></span>
+                {{#if user.name}}<span class="name">{{user.name}}</span>{{/if}}
+                {{#if user.email}}<span class="email">{{user.email}}</span>{{/if}}
+                
             </div>
         </li>
+        {{/if}}
         <li><a href="/my/flashcards">My Flashcards</a></li>
         <li><a href="/my/quiz">Quiz</a></li>
+        <li><a href="#" role="button" id="logout">Logout</a></li>
     </ul>
     <script>
         (()=> {
+            /**
+             * Enable the logout POST request.
+             */
+            document.getElementById('logout').addEventListener('click', async e => {
+                e.preventDefault();
+                await fetch('/api/users/logout', { method: "POST" });
+                location.replace('/login');
+            })
             /**
              * Initialize the sidebar
              * @see https://materializecss.com/sidenav.html
