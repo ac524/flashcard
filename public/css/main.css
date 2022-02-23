@@ -59,6 +59,9 @@ main {
 }
 
 /** ### Card - Flash ### **/
+.card-flash {
+    min-height: 275px;
+}
 .card-flash .card-content {
     font-family: 'Kalam', cursive;
     font-size: 2rem;
@@ -71,6 +74,10 @@ main {
     outline: none;
     border: none !important;
     box-shadow: none !important;
+}
+.card-flash textarea::placeholder {
+    color: inherit;
+    opacity: 0.35;
 }
 .flash-question {
     font-weight: 700;
