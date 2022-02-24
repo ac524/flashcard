@@ -1,0 +1,186 @@
+<div class="row row-flex row-cards" id="flashcards">
+    <div class="col s12 l6">
+        <form class="h-100">
+            <fieldset class="h-100">
+                <a href="#" role="button" c class="card card-flash hoverable green lighten-5" id="new-flashcard">
+                    <div class="card-content valign-wrapper center-align green-text text-darken-4" style="align-self:center">
+                        + Add Flashcard
+                    </div>
+                </a>
+            </fieldset>
+        </form>
+    </div>
+    <div class="col s12 l6">
+        <form class="h-100">
+            <fieldset class="h-100" disabled>
+                <div class="card card-flash hoverable saving">
+                    <div class="card-content blue white-text lighten-1">
+                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">What's my favorite color?</textarea>
+                    </div>
+                    <div class="card-content blue lighten-5">
+                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">green</textarea>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
+                    </div>
+                    <div class="progress m-0">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="col s12 l6">
+        <form class="h-100">
+            <fieldset class="h-100">
+                <div class="card card-flash hoverable">
+                    <div class="card-content blue white-text lighten-1">
+                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">What's my favorite color?</textarea>
+                    </div>
+                    <div class="card-content blue lighten-5">
+                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">green</textarea>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="col s12 l6">
+        <form class="h-100">
+            <fieldset class="h-100">
+                <div class="card card-flash hoverable">
+                    <div class="card-content blue white-text lighten-1">
+                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">What's my favorite color?</textarea>
+                    </div>
+                    <div class="card-content blue lighten-5">
+                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">green</textarea>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="col s12 l6">
+        <form class="h-100">
+            <fieldset class="h-100">
+                <div class="card card-flash hoverable">
+                    <div class="card-content blue white-text lighten-1">
+                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">What's my favorite color?</textarea>
+                    </div>
+                    <div class="card-content blue lighten-5">
+                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">green</textarea>
+                    </div>
+                    <div class="card-action hide">
+                        <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
+                    </div>
+                    <div class="progress m-0">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<script>
+    (($,M) => {
+        /**
+         * <textarea> height control. Adapted from the below stackoverflow thread.
+         * @see https://stackoverflow.com/questions/2803880/is-there-a-way-to-get-a-textarea-to-stretch-to-fit-its-content-without-using-php
+         */
+        const setHeight = el => {
+            el.style.height = "";
+            el.style.height = el.scrollHeight + "px";
+        }
+        const enableSave = form => {
+            if( form.dataset.saveEnabled !== "1" ) {
+                form.dataset.saveEnabled = "1";
+                $(form).find('.card-action').removeClass('hide');
+            }
+        }
+        const disableSave = form => {
+            if( form.dataset.saveEnabled === "1" ) {
+                form.dataset.saveEnabled = false;
+                $(form).find('.card-action').addClass('hide');
+            }
+        }
+        $("#flashcards")
+            // Set the height of textarea's on input change
+            .on("input", 'textarea', e => {
+                setHeight(e.currentTarget);
+                enableSave(e.currentTarget.form);
+            })
+            .on('submit','form', e => {
+                e.preventDefault();
+
+                // Get needed elements from the DOM related to the current form being submitted
+                const form = $(e.currentTarget);
+                const fieldset = form.find('fieldset');
+                const card = form.find('.card');
+                const fields = form.find('textarea');
+
+                // Put the form into a `saving` state
+                card.addClass('saving');
+                fieldset.prop("disabled",true);
+
+                // Reduce the list of fields to an object of data (TLDR: Get the form data)
+                const data = [ ...fields ].reduce((data, field) => ({ ...data, [field.name]: field.value }), {});
+
+                // Fake waiting for a response
+                setTimeout(() => {
+
+                    // Undo the form `saving` state
+                    card.removeClass('saving');
+                    fieldset.prop("disabled",false);
+
+                    // Disable (hide) the form save button
+                    disableSave(e.currentTarget);
+
+                    // Show Add button if needed
+                    $("#new-flashcard").closest('.col').removeClass('hide');
+
+                    // Let the user know the save was a success
+                    M.toast({ html: 'Flashcard saved!', classes: "green darken-2 white-text" })
+
+                }, 2000);
+
+            })
+            // Set the height of textarea's on page load
+            .find('textarea')
+            .each(function() { setHeight(this); });
+
+        $("#new-flashcard").on('click', e => {
+            e.preventDefault();
+
+            const buttonCol = $(e.currentTarget).closest('.col');
+            const newCard = $(`<div class="col s12 l6">
+                    <form class="h-100">
+                        <fieldset class="h-100">
+                            <div class="card card-flash hoverable">
+                                <div class="card-content blue white-text lighten-1">
+                                    <textarea type="text" class="flash-question white-text" name="question" placeholder="Question"></textarea>
+                                </div>
+                                <div class="card-content blue lighten-5">
+                                    <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer"></textarea>
+                                </div>
+                                <div class="card-action hide">
+                                    <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
+                                </div>
+                                <div class="progress m-0">
+                                    <div class="indeterminate"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+            </div>`);
+            const newCardQuestion = newCard.find('.flash-question');
+
+            newCard.insertAfter( buttonCol );
+            buttonCol.addClass('hide');
+            newCardQuestion.focus();
+        });
+    })(jQuery,M)
+</script>

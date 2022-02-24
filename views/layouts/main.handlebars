@@ -6,72 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sweet Flashcards</title>
 
+    <!-- Google Fonts: https://fonts.google.com/share?selection.family=Kalam:wght@300;700 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;700&display=swap" rel="stylesheet">
+
     <!-- Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Materialize CDN Resources: https://materializecss.com/getting-started.html -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/utils.css">
     <link rel="stylesheet" href="/css/main.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
 
-    <!-- Navigation Partial -->
-    <nav>
-        <div class="row">
-            <div class="nav-wrapper">
-                <div class="col s12">
-                    <a href="/" class="brand-logo">Sweet Flashcards</a>
-                    {{#if logged_in}}
-                    <a href="#" role="button" data-target="sidebar-nav" class="right sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
-                    {{else}}
-                    <ul class="right">
-                        <li><a href="/login" class="right">Login</a></li>
-                    </ul>
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-    </nav>
-    {{#if logged_in}}
-    <ul id="sidebar-nav" class="sidenav">
-        {{#if user}}
-        <li>
-            <div class="user-view" style="background:#ccc">
-                <!-- <div class="background">
-                    <img src="images/office.jpg">
-                </div> -->
-                <span class="circle" style="background:rgba(0,0,0,0.2);color:#FFF;display:flex;align-items:center;justify-content:center;"><i class="material-icons">person</i></span>
-                {{#if user.name}}<span class="name">{{user.name}}</span>{{/if}}
-                {{#if user.email}}<span class="email">{{user.email}}</span>{{/if}}
-                
-            </div>
-        </li>
-        {{/if}}
-        <li><a href="/my/flashcards">My Flashcards</a></li>
-        <li><a href="/my/quiz">Quiz</a></li>
-        <li><a href="#" role="button" id="logout">Logout</a></li>
-    </ul>
-    <script>
-        (()=> {
-            /**
-             * Enable the logout POST request.
-             */
-            document.getElementById('logout').addEventListener('click', async e => {
-                e.preventDefault();
-                await fetch('/api/users/logout', { method: "POST" });
-                location.replace('/login');
-            })
-            /**
-             * Initialize the sidebar
-             * @see https://materializecss.com/sidenav.html
-             */
-            M.Sidenav.init(
-                document.getElementById('sidebar-nav')
-            );
-        })();
-    </script>
-    {{/if}}
+    {{> navbar}}
+
     <!-- Main Layout -->
     <main>
         <div clas="container">
@@ -85,31 +37,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="page-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col l6 s12">
-              <h5 class="white-text">Footer Content</h5>
-              <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-              <h5 class="white-text">Links</h5>
-              <ul>
-                <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="footer-copyright">
-          <div class="container">
-          © 2014 Copyright Text
-          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-          </div>
-        </div>
-    </footer>
+    {{> footer}}
 </body>
 </html>

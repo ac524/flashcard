@@ -8,13 +8,12 @@
 
 /register - Where the user creates an account
 
-/dashboard
+/my/flashcards
     - Where the user can see their existing Flashcards
-    - Where the user can link to create a flashcard
+    - Where the user create a flashcard
+    - update flashcards
 
-/newflashcard - Where the users can create a new flashcard
-
-/quiz - Where the user can interact with their falshcards and test themselves
+/my/quiz - Where the user can interact with their falshcards and test themselves
 
 ## POST
 
