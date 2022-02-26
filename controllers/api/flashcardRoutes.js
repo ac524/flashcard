@@ -21,4 +21,22 @@ router.post("/", withApiAuth, async (req, res) => {
   res.json(flashcards);
 });
 
+router.put("/:cardId", withApiAuth, async (req, res) => {
+
+  console.log("hello", req.body);
+
+  const updateResult = await Flashcard.update({
+    ...req.body
+  }, {
+    where: {
+      id: req.params.cardId,
+      user_id: req.session.user_id
+    }
+  });
+
+  console.log(updateResult);
+
+  res.json( updateResult );
+});
+
 module.exports = router;

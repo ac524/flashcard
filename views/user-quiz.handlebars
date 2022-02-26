@@ -1,202 +1,49 @@
 <div class="carousel carousel-flash" id="flashcard-quiz">
+    {{#each flashcards}}
     <div class="carousel-item">
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
                     <div class="card card-flash">
                         <div class="card-content blue white-text">
-                            Hello
+                            {{question}}
                         </div>
                     </div>
                 </div>
                 <div class="flip-card-back">
                     <div class="card card-flash">
                         <div class="card-content blue lighten-5">
-                            Hello
+                            {{answer}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="carousel-item">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card card-flash">
-                        <div class="card-content blue white-text">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card-back">
-                    <div class="card card-flash">
-                        <div class="card-content blue lighten-5">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="carousel-item">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card card-flash">
-                        <div class="card-content blue white-text">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card-back">
-                    <div class="card card-flash">
-                        <div class="card-content blue lighten-5">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="carousel-item">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card card-flash">
-                        <div class="card-content blue white-text">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card-back">
-                    <div class="card card-flash">
-                        <div class="card-content blue lighten-5">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="carousel-item">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card card-flash">
-                        <div class="card-content blue white-text">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card-back">
-                    <div class="card card-flash">
-                        <div class="card-content blue lighten-5">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="carousel-item">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card card-flash">
-                        <div class="card-content blue white-text">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card-back">
-                    <div class="card card-flash">
-                        <div class="card-content blue lighten-5">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="carousel-item">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card card-flash">
-                        <div class="card-content blue white-text">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card-back">
-                    <div class="card card-flash">
-                        <div class="card-content blue lighten-5">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-            </div>
+    {{/each}}
+</div>
+<div class="row">
+    <div class="col s12">
+        <div class="center-align">
+                <button class="btn btn-reveal" id="reveal-flash">Show/Hide Answer</button>
         </div>
     </div>
 </div>
-    <div class="row">
-        <div class="col s12">
-            <div class="center-align">
-                    <button class="btn btn-reveal" id="reveal-flash">Show/Hide Answer</button>
-            </div>
-        </div>
-    </div>
-    {{!-- <div class="row">
-        <div class="col s2 l1">
-            <div class="grey lighten-2" style="padding-top:100%">
+<script>
+    (($) => {
+        const quizCarousel = $('#flashcard-quiz');
 
-            </div>
-        </div>
-        <div class="col s2 m1">
-            <div class="grey lighten-2" style="padding-top:100%">
+        quizCarousel
+            .on('.flip-card')
+            .carousel({
+                onCycleTo: function(a,b) {
+                    quizCarousel.find('.flipped').toggleClass('flipped');
+                }
+            });
 
-            </div>
-        </div>
-        <div class="col s2 m1">
-            <div class="grey lighten-2" style="padding-top:100%">
-
-            </div>
-        </div>
-        <div class="col s2 m1">
-            <div class="grey lighten-2" style="padding-top:100%">
-
-            </div>
-        </div>
-        <div class="col s2 m1">
-            <div class="grey lighten-2" style="padding-top:100%">
-
-            </div>
-        </div>
-        <div class="col s2 m1">
-            <div class="grey lighten-2" style="padding-top:100%">
-
-            </div>
-        </div>
-        <div class="col s2 m1">
-            <div class="grey lighten-2" style="padding-top:100%">
-
-            </div>
-        </div>
-    </div> --}}
-  <script>
-      (($) => {
-          const quizCarousel = $('#flashcard-quiz');
-
-            quizCarousel
-                .on('.flip-card')
-                .carousel({
-                    indicators: true
-                });
-
-            $('#reveal-flash')
-                .on('click', () => {
-                    quizCarousel.find('.active .flip-card').toggleClass('flipped');
-                })
-      })(jQuery)
-  </script>
+        $('#reveal-flash')
+            .on('click', () => {
+                quizCarousel.find('.active .flip-card').toggleClass('flipped');
+            })
+    })(jQuery)
+</script>
