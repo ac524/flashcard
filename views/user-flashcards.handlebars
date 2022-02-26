@@ -1,4 +1,5 @@
 <div class="row row-flex row-cards" id="flashcards">
+    
     <div class="col s12 l6">
         <form class="h-100">
             <fieldset class="h-100">
@@ -10,69 +11,17 @@
             </fieldset>
         </form>
     </div>
+
+    {{#each flashcards}}
     <div class="col s12 l6">
-        <form class="h-100">
-            <fieldset class="h-100" disabled>
-                <div class="card card-flash hoverable saving">
-                    <div class="card-content blue white-text lighten-1">
-                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">What's my favorite color?</textarea>
-                    </div>
-                    <div class="card-content blue lighten-5">
-                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">green</textarea>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
-                    </div>
-                    <div class="progress m-0">
-                        <div class="indeterminate"></div>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="col s12 l6">
-        <form class="h-100">
+        <form class="h-100" data-id="{{id}}">
             <fieldset class="h-100">
                 <div class="card card-flash hoverable">
                     <div class="card-content blue white-text lighten-1">
-                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">What's my favorite color?</textarea>
+                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">{{question}}</textarea>
                     </div>
                     <div class="card-content blue lighten-5">
-                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">green</textarea>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="col s12 l6">
-        <form class="h-100">
-            <fieldset class="h-100">
-                <div class="card card-flash hoverable">
-                    <div class="card-content blue white-text lighten-1">
-                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">What's my favorite color?</textarea>
-                    </div>
-                    <div class="card-content blue lighten-5">
-                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">green</textarea>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="col s12 l6">
-        <form class="h-100">
-            <fieldset class="h-100">
-                <div class="card card-flash hoverable">
-                    <div class="card-content blue white-text lighten-1">
-                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">What's my favorite color?</textarea>
-                    </div>
-                    <div class="card-content blue lighten-5">
-                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">green</textarea>
+                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">{{answer}}</textarea>
                     </div>
                     <div class="card-action hide">
                         <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
@@ -84,6 +33,8 @@
             </fieldset>
         </form>
     </div>
+    {{/each}}
+
 </div>
 <script>
     (($,M) => {
@@ -113,11 +64,12 @@
                 setHeight(e.currentTarget);
                 enableSave(e.currentTarget.form);
             })
-            .on('submit','form', e => {
+            .on('submit','form', async e => {
                 e.preventDefault();
 
                 // Get needed elements from the DOM related to the current form being submitted
                 const form = $(e.currentTarget);
+                const flashcardId = form.data('id');
                 const fieldset = form.find('fieldset');
                 const card = form.find('.card');
                 const fields = form.find('textarea');
@@ -129,23 +81,44 @@
                 // Reduce the list of fields to an object of data (TLDR: Get the form data)
                 const data = [ ...fields ].reduce((data, field) => ({ ...data, [field.name]: field.value }), {});
 
-                // Fake waiting for a response
-                setTimeout(() => {
+                if( flashcardId ) {
 
-                    // Undo the form `saving` state
-                    card.removeClass('saving');
-                    fieldset.prop("disabled",false);
+                    // Do an update
+                    await fetch(`/api/flashcards/${flashcardId}`, {
+                        method: "PUT",
+                        body: JSON.stringify( data ),
+                        headers: { "Content-Type": "application/json" }
+                    });
 
-                    // Disable (hide) the form save button
-                    disableSave(e.currentTarget);
+                } else {
 
-                    // Show Add button if needed
-                    $("#new-flashcard").closest('.col').removeClass('hide');
+                    // do a create
+                    const res = await fetch(`/api/flashcards`, {
+                        method: "POST",
+                        body: JSON.stringify( data ),
+                        headers: { "Content-Type": "application/json" }
+                    });
 
-                    // Let the user know the save was a success
-                    M.toast({ html: 'Flashcard saved!', classes: "green darken-2 white-text" })
+                    // Get the json data from the response
+                    const result = await res.json();
 
-                }, 2000);
+                    // Set the id from the response, so the form can now update the newly created flashcard
+                    form.data('id', result.id);
+
+                }
+
+                // Undo the form `saving` state
+                card.removeClass('saving');
+                fieldset.prop("disabled",false);
+
+                // Disable (hide) the form save button
+                disableSave(e.currentTarget);
+
+                // Show Add button if needed
+                $("#new-flashcard").closest('.col').removeClass('hide');
+
+                // Let the user know the save was a success
+                M.toast({ html: 'Flashcard saved!', classes: "green darken-2 white-text" })
 
             })
             // Set the height of textarea's on page load

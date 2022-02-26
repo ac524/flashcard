@@ -1,7 +1,7 @@
 const withAuth = require("../utils/auth");
 
 const router = require("express").Router();
-// const { User } = require("../models");
+const { Flashcard } = require("../models");
 // const withAuth = require("../utils/auth");
 
 router.get("/", async (req, res) => {
@@ -26,11 +26,23 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/my/quiz", withAuth, async (req, res) => {
-  res.render("user-quiz", { ...req.viewData });
+  const flashcards = await Flashcard.getUserView(req.session.user_id);
+
+  console.log( flashcards );
+
+  res.render("user-quiz", {
+    ...req.viewData,
+    flashcards,
+  });
 });
 
 router.get("/my/flashcards", withAuth, async (req, res) => {
-  res.render("user-flashcards", { ...req.viewData });
+  const flashcards = await Flashcard.getUserView(req.session.user_id);
+
+  res.render("user-flashcards", {
+    ...req.viewData,
+    flashcards,
+  });
 });
 
 module.exports = router;
