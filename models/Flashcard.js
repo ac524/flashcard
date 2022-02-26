@@ -4,12 +4,18 @@ const serializeModelResult = require("../utils/serializeModelResult");
 
 class Flashcard extends Model {}
 
-Flashcard.getUserView = async function (user_id) {
+Flashcard.getUserView = async function (user_id, category_id) {
+  const where = {
+    user_id,
+  };
+
+  if (category_id) {
+    where.category_id = category_id;
+  }
+
   return serializeModelResult(
     await Flashcard.findAll({
-      where: {
-        user_id,
-      },
+      where,
     })
   );
 };

@@ -17,6 +17,13 @@
         <form class="h-100" data-id="{{id}}">
             <fieldset class="h-100">
                 <div class="card card-flash hoverable">
+                    <div class="card-content">
+                        <select name="category_id">
+                            {{#each ../categories}}
+                                <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
                     <div class="card-content blue white-text lighten-1">
                         <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">{{question}}</textarea>
                     </div>
@@ -72,7 +79,7 @@
                 const flashcardId = form.data('id');
                 const fieldset = form.find('fieldset');
                 const card = form.find('.card');
-                const fields = form.find('textarea');
+                const fields = form.find('textarea, select');
 
                 // Put the form into a `saving` state
                 card.addClass('saving');
@@ -80,6 +87,8 @@
 
                 // Reduce the list of fields to an object of data (TLDR: Get the form data)
                 const data = [ ...fields ].reduce((data, field) => ({ ...data, [field.name]: field.value }), {});
+
+                console.log( data );
 
                 if( flashcardId ) {
 
@@ -133,6 +142,13 @@
                     <form class="h-100">
                         <fieldset class="h-100">
                             <div class="card card-flash hoverable">
+                                <div class="card-content">
+                                    <select name="category_id">
+                                        {{#each categories}}
+                                            <option value="{{id}}">{{name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
                                 <div class="card-content blue white-text lighten-1">
                                     <textarea type="text" class="flash-question white-text" name="question" placeholder="Question"></textarea>
                                 </div>
