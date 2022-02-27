@@ -79,6 +79,9 @@ main {
     color: inherit;
     opacity: 0.35;
 }
+.card-flash .input-field {
+    margin-bottom: 0;
+}
 .flash-question {
     font-weight: 700;
 }
