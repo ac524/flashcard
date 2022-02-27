@@ -17,11 +17,30 @@
         <form class="h-100" data-id="{{id}}">
             <fieldset class="h-100">
                 <div class="card card-flash hoverable">
+                    <div class="card-content pb-2 fg-0">
+                        <div class="input-field">
+                            <select name="category_id" id="category-{{id}}">
+                                {{#each ../categories}}
+                                    <option
+                                        value="{{id}}"
+                                        {{!-- Add the "selected" attribute if the current category id matches flashcard.category_id --}}
+                                        {{#if (values_match ../category_id id)}}selected{{/if}}>{{name}}</option>
+                                {{/each}}
+                            </select>
+                            <label for="category-{{id}}">Category</label>
+                        </div>
+                    </div>
                     <div class="card-content blue white-text lighten-1">
-                        <textarea type="text" class="flash-question white-text" name="question" placeholder="Question">{{question}}</textarea>
+                        <div class="input-field">
+                            <textarea id="question-{{id}}" type="text" class="flash-question white-text" name="question" placeholder="Question">{{question}}</textarea>
+                            <label for="question-{{id}}" class="white-text">Question</label>
+                        </div>
                     </div>
                     <div class="card-content blue lighten-5">
-                        <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer">{{answer}}</textarea>
+                        <div class="input-field">
+                            <textarea id="answer-{{id}}" type="text" class="flash-answer"  name="answer" placeholder="Answer">{{answer}}</textarea>
+                            <label for="answer-{{id}}">Answer</label>
+                        </div>
                     </div>
                     <div class="card-action hide">
                         <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
@@ -64,6 +83,9 @@
                 setHeight(e.currentTarget);
                 enableSave(e.currentTarget.form);
             })
+            .on("change", "select", e => {
+                enableSave(e.currentTarget.form);
+            })
             .on('submit','form', async e => {
                 e.preventDefault();
 
@@ -72,7 +94,7 @@
                 const flashcardId = form.data('id');
                 const fieldset = form.find('fieldset');
                 const card = form.find('.card');
-                const fields = form.find('textarea');
+                const fields = form.find('textarea, select');
 
                 // Put the form into a `saving` state
                 card.addClass('saving');
@@ -80,6 +102,8 @@
 
                 // Reduce the list of fields to an object of data (TLDR: Get the form data)
                 const data = [ ...fields ].reduce((data, field) => ({ ...data, [field.name]: field.value }), {});
+
+                console.log( data );
 
                 if( flashcardId ) {
 
@@ -133,11 +157,27 @@
                     <form class="h-100">
                         <fieldset class="h-100">
                             <div class="card card-flash hoverable">
+                                <div class="card-content pb-2 fg-0">
+                                    <div class="input-field">
+                                        <select name="category_id" id="category-new">
+                                            {{#each categories}}
+                                                <option value="{{id}}">{{name}}</option>
+                                            {{/each}}
+                                        </select>
+                                        <label for="category-new">Category</label>
+                                    </div>
+                                </div>
                                 <div class="card-content blue white-text lighten-1">
-                                    <textarea type="text" class="flash-question white-text" name="question" placeholder="Question"></textarea>
+                                    <div class="input-field">
+                                        <textarea type="text" class="flash-question white-text" name="question" id="question-new"></textarea>
+                                        <label for="question-new" class="white-text">Question</label>
+                                    </div>
                                 </div>
                                 <div class="card-content blue lighten-5">
-                                    <textarea type="text" class="flash-answer"  name="answer" placeholder="Answer"></textarea>
+                                    <div class="input-field">
+                                        <textarea type="text" class="flash-answer"  name="answer" id="answer-new"></textarea>
+                                        <label for="answer-new">Answer</label>
+                                    </div>
                                 </div>
                                 <div class="card-action hide">
                                     <button class="btn z-depth-0"><i class="material-icons left">save</i>Save</button>
@@ -151,9 +191,11 @@
             </div>`);
             const newCardQuestion = newCard.find('.flash-question');
 
-            newCard.insertAfter( buttonCol );
+            newCard.insertAfter( buttonCol ).find('select').formSelect();
             buttonCol.addClass('hide');
             newCardQuestion.focus();
         });
+        $('select').formSelect();
+        M.AutoInit();
     })(jQuery,M)
 </script>

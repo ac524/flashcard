@@ -1,7 +1,8 @@
 const withAuth = require("../utils/auth");
 
 const router = require("express").Router();
-const { Flashcard } = require("../models");
+const { Flashcard, Category } = require("../models");
+const serializeModelResult = require("../utils/serializeModelResult");
 // const withAuth = require("../utils/auth");
 
 router.get("/", async (req, res) => {
@@ -28,7 +29,17 @@ router.get("/login", (req, res) => {
 router.get("/my/quiz", withAuth, async (req, res) => {
   const flashcards = await Flashcard.getUserView(req.session.user_id);
 
-  console.log( flashcards );
+  res.render("user-quiz", {
+    ...req.viewData,
+    flashcards,
+  });
+});
+
+router.get("/my/quiz/cat/:catId", withAuth, async (req, res) => {
+  const flashcards = await Flashcard.getUserView(
+    req.session.user_id,
+    req.params.catId
+  );
 
   res.render("user-quiz", {
     ...req.viewData,
@@ -38,10 +49,12 @@ router.get("/my/quiz", withAuth, async (req, res) => {
 
 router.get("/my/flashcards", withAuth, async (req, res) => {
   const flashcards = await Flashcard.getUserView(req.session.user_id);
+  const categories = serializeModelResult( await Category.findAll() );
 
   res.render("user-flashcards", {
     ...req.viewData,
     flashcards,
+    categories
   });
 });
 

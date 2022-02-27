@@ -1,38 +1,47 @@
 [
   {
     "question": "What's my favorite color?",
-    "answer": "green"
+    "answer": "green",
+    "category_id": 1
   },
   {
     "question": "How do you make an array with javascript?",
-    "answer": "With those square brackets!"
+    "answer": "With those square brackets!",
+    "category_id": 2
   },
   {
     "question": "What did you have for breakfast?",
-    "answer": "Breakfast burrito!"
+    "answer": "Breakfast burrito!",
+    "category_id": 3
   },
   {
     "question": "Question A",
-    "answer": "Answer A"
+    "answer": "Answer A",
+    "category_id": 4
   },
   {
     "question": "Question B",
-    "answer": "Answer B"
+    "answer": "Answer B",
+    "category_id": 3
   },
   {
     "question": "Question C",
-    "answer": "Answer C"
+    "answer": "Answer C",
+    "category_id": 4
   },
   {
     "question": "Question D",
-    "answer": "Answer D"
+    "answer": "Answer D",
+    "category_id": 2
   },
   {
     "question": "Question E",
-    "answer": "Answer E"
+    "answer": "Answer E",
+    "category_id": 2
   },
   {
     "question": "Question F",
-    "answer": "Answer F"
+    "answer": "Answer F",
+    "category_id": 1
   }
 ]
