@@ -27,34 +27,45 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/my/quiz", withAuth, async (req, res) => {
-  const flashcards = await Flashcard.getUserView(req.session.user_id);
+  const flashcards = await Flashcard.getUserView(
+    req.session.user_id,
+    false,
+    true
+  );
+  const categories = await Category.getWithUserCountView(req.session.user_id, false);
 
   res.render("user-quiz", {
     ...req.viewData,
     flashcards,
+    categories,
+    catId: "",
   });
 });
 
 router.get("/my/quiz/cat/:catId", withAuth, async (req, res) => {
   const flashcards = await Flashcard.getUserView(
     req.session.user_id,
-    req.params.catId
+    req.params.catId,
+    true
   );
+  const categories = await Category.getWithUserCountView(req.session.user_id, false);
 
   res.render("user-quiz", {
     ...req.viewData,
     flashcards,
+    categories,
+    catId: parseInt(req.params.catId),
   });
 });
 
 router.get("/my/flashcards", withAuth, async (req, res) => {
   const flashcards = await Flashcard.getUserView(req.session.user_id);
-  const categories = serializeModelResult( await Category.findAll() );
+  const categories = serializeModelResult(await Category.findAll());
 
   res.render("user-flashcards", {
     ...req.viewData,
     flashcards,
-    categories
+    categories,
   });
 });
 

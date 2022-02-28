@@ -1,3 +1,26 @@
+{{#if (has_multiple flashcards.length)}}
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content blue lighten-5">
+                <div class="input-field">
+                    <select id="quiz-category">
+                        <option value="" {{#if (values_match "" catId)}}selected{{/if}}>All</option>
+                        {{#each categories}}
+                            <option
+                                value="{{id}}"
+                                {{!-- Add the "selected" attribute if the current category id matches flashcard.category_id --}}
+                                {{#if (values_match ../catId id)}}selected{{/if}}>{{name}} ({{count}})</option>
+                        {{/each}}
+                    </select>
+                    <label for="quiz-category">Quiz Category</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if flashcards.length}}
 <div class="carousel carousel-flash" id="flashcard-quiz">
     {{#each flashcards}}
     <div class="carousel-item">
@@ -25,25 +48,40 @@
 <div class="row">
     <div class="col s12">
         <div class="center-align">
-                <button class="btn btn-reveal" id="reveal-flash">Show/Hide Answer</button>
+            <button class="btn btn-reveal" id="reveal-flash">Show/Hide Answer</button>
         </div>
     </div>
 </div>
+{{/if}}
 <script>
-    (($) => {
+    (($,M) => {
         const quizCarousel = $('#flashcard-quiz');
 
-        quizCarousel
-            .on('.flip-card')
-            .carousel({
-                onCycleTo: function(a,b) {
-                    quizCarousel.find('.flipped').toggleClass('flipped');
-                }
-            });
+        if( quizCarousel.length ) {
+            quizCarousel
+                .on('.flip-card')
+                .carousel({
+                    onCycleTo: function(a,b) {
+                        quizCarousel.find('.flipped').toggleClass('flipped');
+                    }
+                });
 
-        $('#reveal-flash')
-            .on('click', () => {
-                quizCarousel.find('.active .flip-card').toggleClass('flipped');
-            })
-    })(jQuery)
+            $('#reveal-flash')
+                .on('click', () => {
+                    quizCarousel.find('.active .flip-card').toggleClass('flipped');
+                });
+        }
+
+        $('#quiz-category').on('change', e => {
+            if( e.currentTarget.value ) {
+                location.replace(`/my/quiz/cat/${e.currentTarget.value}`);
+            } else {
+                location.replace("/my/quiz");
+            }
+        });
+
+        // Activate select boxes
+        $('select').formSelect();
+        M.AutoInit();
+    })(jQuery,M)
 </script>

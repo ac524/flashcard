@@ -1,17 +1,15 @@
 <!-- Navigation Partial -->
-<nav>
-    <div class="row">
-        <div class="nav-wrapper">
-            <div class="col s12">
-                <a href="/" class="brand-logo">Sweet Flashcards</a>
-                {{#if logged_in}}
-                <a href="#" role="button" data-target="sidebar-nav" class="right sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
-                {{else}}
-                <ul class="right">
-                    <li><a href="/login" class="right"><i class="large material-icons right">account_circle</i>Login</a></li>
-                </ul>
-                {{/if}}
-            </div>
+<nav class="row">
+    <div class="nav-wrapper">
+        <div class="col s12">
+            <a href="/" class="brand-logo">Sweet Flashcards</a>
+            {{#if logged_in}}
+            <a href="#" role="button" data-target="sidebar-nav" class="right sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
+            {{else}}
+            <ul class="right">
+                <li><a href="/login" class="right"><i class="large material-icons right">account_circle</i>Login</a></li>
+            </ul>
+            {{/if}}
         </div>
     </div>
 </nav>

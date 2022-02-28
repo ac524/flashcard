@@ -4,7 +4,7 @@ const serializeModelResult = require("../utils/serializeModelResult");
 
 class Flashcard extends Model {}
 
-Flashcard.getUserView = async function (user_id, category_id) {
+Flashcard.getUserView = async function (user_id, category_id, random = false) {
   const where = {
     user_id,
   };
@@ -16,6 +16,7 @@ Flashcard.getUserView = async function (user_id, category_id) {
   return serializeModelResult(
     await Flashcard.findAll({
       where,
+      order: random ? sequelize.literal("rand()") : [ ["id", "DESC"] ],
     })
   );
 };
