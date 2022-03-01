@@ -21,8 +21,8 @@ jobs:
               with:
                   node-version: 16.x
             # Create cache for node module
-            #- name: Cache NPM dependencies
-            #- uses: c-hive/gha-npm-cache@v1
+            - name: Cache NPM dependencies
+            - uses: c-hive/gha-npm-cache@v1
             # Build the app
             - name: 🧰 install dev deps
               run: npm i --only=dev
